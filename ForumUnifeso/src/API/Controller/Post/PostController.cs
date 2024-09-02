@@ -1,6 +1,8 @@
 ﻿using ForumUnifeso.src.API.Interface;
 using Microsoft.AspNetCore.Mvc;
 using ForumUnifeso.src.API.Model;
+using ForumUnifeso.src.API.View;
+using AutoMapper;
 
 namespace ForumUnifeso.src.API.Controller
 {
@@ -9,23 +11,40 @@ namespace ForumUnifeso.src.API.Controller
     public class PostController : ControllerBase
     {
         private readonly IPostService _postService;
+        private readonly IMapper _mapper;
 
-        public PostController(IPostService postService)
+        public PostController(IPostService postService, IMapper mapper)
         {
             _postService = postService;
+            _mapper = mapper;
         }
         
         [HttpPost]
-        public IActionResult CreatePost([FromBody] Post post)
+        public IActionResult CreatePost([FromBody] PostRequest postRequest)
         {
-            if(post is null)
+            if(postRequest is null)
             {
-                throw new ArgumentNullException(nameof(post));
+                return BadRequest("Post data is null.");
             }
 
-            _postService.CreatePost(post);
+            try
+            {
+                Post post = _mapper.Map<Post>(postRequest);
 
-            return Ok();
+                _postService.CreatePost(post);
+
+                PostResponse response = _mapper.Map<PostResponse>(post);
+                return Ok(response);
+            }
+            catch (AutoMapperMappingException ex)
+            {
+                return StatusCode(500, "Mapping configuration issue.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+
+            }
         }
     }
 }
