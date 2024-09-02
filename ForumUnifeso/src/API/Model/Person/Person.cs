@@ -1,4 +1,4 @@
-﻿namespace ForumUnifeso.src.API.Model.Person
+﻿namespace ForumUnifeso.src.API.Model
 {
     public class Person
     {

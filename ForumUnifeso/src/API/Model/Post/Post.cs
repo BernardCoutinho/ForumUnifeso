@@ -1,6 +1,5 @@
-﻿namespace ForumUnifeso.src.API.Model.Post
+﻿namespace ForumUnifeso.src.API.Model
 {
-    using ForumUnifeso.src.API.Model.Person;
     public class Post
     {
         public int Id { get; private set; }

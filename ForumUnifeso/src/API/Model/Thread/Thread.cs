@@ -1,6 +1,5 @@
-﻿namespace ForumUnifeso.src.API.Model.Thread
+﻿namespace ForumUnifeso.src.API.Model
 {
-    using ForumUnifeso.src.API.Model.Post;
 
     public class Thread
     {
