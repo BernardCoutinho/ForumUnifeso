@@ -24,7 +24,6 @@
     <Folder Include="src\API\Model\" />
     <Folder Include="src\API\Handle\" />
     <Folder Include="src\API\Repository\" />
-    <Folder Include="src\API\View\Post\" />
     <Folder Include="src\Test\" />
   </ItemGroup>
 

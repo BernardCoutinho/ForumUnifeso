@@ -7,7 +7,8 @@ namespace ForumUnifeso.src.API.Service
     {
         public void CreatePost(Post post)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            return;
         }
     }
 }
