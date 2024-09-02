@@ -7,6 +7,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IPostService, PostService>();
 
 builder.Services.AddControllers();
+
+builder.Services.AddAutoMapper(typeof(Program)); // Configura o AutoMapper para escanear por perfis no assembly atual
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
