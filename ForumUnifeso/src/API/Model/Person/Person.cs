@@ -6,5 +6,10 @@
         public string Name { get; private set; }
 
         public List<Post> Posts { get; private set; } = new List<Post>();
+        
+        public Person(int id, string name) {
+            Id = id;
+            Name = name;
+        }
     }
 }
