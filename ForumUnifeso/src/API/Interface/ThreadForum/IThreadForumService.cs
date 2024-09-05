@@ -4,10 +4,10 @@ namespace ForumUnifeso.src.API.Interface
 {
     public interface IThreadForumService
     {
-        void PostThreadForum(ThreadForum threadForum);
-        void GetAllThreadForum();
-        void GetThreadForum(int threadForumId);
-        void PutThreadForum(ThreadForum threadForum);
+        ThreadForum PostThreadForum(ThreadForumDTO threadForumDTO);
+        List<ThreadForum> GetAllThreadForum();
+        ThreadForum GetThreadForum(int threadForumId);
+        ThreadForum PutThreadForum(ThreadForum threadForum);
         void DeleteThreadForum(int threadForumId);
     }
 }

@@ -1,8 +1,6 @@
-using System.CodeDom.Compiler;
 using ForumUnifeso.src.API.Interface;
 using ForumUnifeso.src.API.Model;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace ForumUnifeso.src.API.Controller.ThreadForumController
 {
@@ -10,27 +8,23 @@ namespace ForumUnifeso.src.API.Controller.ThreadForumController
     [Route("api/[controller]")]
     public class ThreadForumController : ControllerBase {
 
-        private IThreadForumService _threadForum;
-        // private ThreadForumRepository _threadForumRepository;
+        private IThreadForumService _threadForumService;
 
-        public ThreadForumController(IThreadForumService threadForum)
+        public ThreadForumController(IThreadForumService threadForumService)
         {
-            _threadForum = threadForum;
+            _threadForumService = threadForumService;
         }
 
         [HttpPost]
-        public IActionResult CreateThread([FromBody] ThreadForumDTO threadForumDTO)
+        public IActionResult CreateThreadForum([FromBody] ThreadForumDTO threadForumDTO)
         {
             try 
             {
                 if (threadForumDTO is null) {
                     return BadRequest("Valor de 'Thread' é nulo");
                 }
-                // Person author = new Person(1, threadForumDTO.AuthorName);
-                // Post topic = new Post(1, threadForumDTO.Title, threadForumDTO.Description, DateTime.Now , author);
-                // ThreadForum threadForum = new ThreadForum(1, topic);
-                // _threadForumRepository.dsa(threadForum);
-                ThreadForum threadForum = new ThreadForum();
+
+                ThreadForum threadForum = _threadForumService.PostThreadForum(threadForumDTO);              
                 return Created("GetThreadForum", threadForum);
             } catch (Exception ex) {
                 return StatusCode(500, ex.Message);
@@ -39,9 +33,6 @@ namespace ForumUnifeso.src.API.Controller.ThreadForumController
         }
 
         [HttpGet("/all")]
-        public async Task<ActionResult<IEnumerable<ThreadForum>>> GetAllThreads() {
-            // async 
-            return new List<ThreadForum> {};
-        }
+        public ActionResult<IEnumerable<ThreadForum>> GetAllThreadForum() => _threadForumService.GetAllThreadForum();
     } 
 }
