@@ -16,7 +16,7 @@ namespace ForumUnifeso.src.API.Controller.ThreadForumController
         }
 
         [HttpPost]
-        public IActionResult CreateThreadForum([FromBody] ThreadForumDTO threadForumDTO)
+        public IActionResult PostThreadForum([FromBody] ThreadForumDTO threadForumDTO)
         {
             try 
             {
