@@ -1,8 +1,8 @@
 ﻿namespace ForumUnifeso.src.API.Interface
 {
+    using ForumUnifeso.src.API.Base;
     using ForumUnifeso.src.API.Model;
-    public interface IPostService
+    public interface IPostService : IService<Post, int>
     {
-        void CreatePost(Post post);
     }
 }

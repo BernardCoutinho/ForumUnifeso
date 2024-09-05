@@ -2,7 +2,7 @@
 {
 
     public class ThreadForum
-    {        
+    {
         public int? Id { get; private set; }
         // public string Name { get; private set; }
         public Post? Topic { get; private set; }
