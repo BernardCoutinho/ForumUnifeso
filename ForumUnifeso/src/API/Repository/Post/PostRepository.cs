@@ -55,8 +55,6 @@ namespace ForumUnifeso.src.API.Repository
             }
         }
 
-  
-
         public async Task<bool> DeleteAsync(Post post)
         {
             _context.Post.Remove(post);

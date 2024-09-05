@@ -6,7 +6,6 @@
         Task<IEnumerable<TEntity>> GetAllAsync();
         Task<TEntity> AddAsync(TEntity entity);
         Task<TEntity> UpdateAsync(TEntity entity);
-        Task<bool> DeleteByIdAsync(TKey id);
         Task<bool> DeleteAsync(TEntity entity);
     }
 }

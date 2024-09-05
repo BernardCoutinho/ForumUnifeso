@@ -5,5 +5,6 @@ namespace ForumUnifeso.src.API.Interface
 {
     public interface IPersonRepository : IRepository<Person, int>
     {
+        Task<bool> DeleteByIdAsync(int id);
     }
 }

@@ -4,5 +4,6 @@
     using ForumUnifeso.src.API.Model;
     public interface IPostService : IService<Post, int>
     {
+        Task<bool> DeleteByIdAsync(int id);
     }
 }

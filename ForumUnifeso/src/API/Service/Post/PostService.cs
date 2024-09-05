@@ -19,9 +19,14 @@ namespace ForumUnifeso.src.API.Service
             return await _repository.AddAsync(post);
         }
 
-        public Task<bool> DeleteAsync(int postId)
+        public async Task<bool> DeleteAsync(Post post)
         {
-           return _repository.DeleteByIdAsync(postId);
+            return await _repository.DeleteAsync(post);
+        }
+
+        public async Task<bool> DeleteByIdAsync(int id)
+        {
+            return await _repository.DeleteByIdAsync(id);
         }
 
         public async Task<IEnumerable<Post>> GetAllAsync()
@@ -37,6 +42,12 @@ namespace ForumUnifeso.src.API.Service
         public async Task<Post> UpdateAsync(Post post)
         {
             return await _repository.UpdateAsync(post);
+        }
+
+        public int GeneratePostId()
+        {
+            int lastId =  _repository.GetLastPostIdAsync();
+            return lastId + 1;
         }
     }
 }
