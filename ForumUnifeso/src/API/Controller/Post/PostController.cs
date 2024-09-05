@@ -154,7 +154,7 @@ namespace ForumUnifeso.src.API.Controller
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePostByIdAsync(int id)
         {
-            if (await _postService.GetByIdAsync(id) is not null)
+            if (await _postService.GetByIdAsync(id) is null)
             {
                 return BadRequest("Post data is null.");
             }
