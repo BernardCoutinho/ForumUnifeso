@@ -8,27 +8,23 @@ namespace ForumUnifeso.src.API.Controller.ThreadForumController
     [Route("api/[controller]")]
     public class ThreadForumController : ControllerBase {
 
-        private IThreadForumService _threadForum;
-        // private ThreadForumRepository _threadForumRepository;
+        private IThreadForumService _threadForumService;
 
-        public ThreadForumController(IThreadForumService threadForum)
+        public ThreadForumController(IThreadForumService threadForumService)
         {
-            _threadForum = threadForum;
+            _threadForumService = threadForumService;
         }
 
         [HttpPost]
-        public IActionResult CreateThread([FromBody] ThreadForumDTO threadForumDTO)
+        public IActionResult PostThreadForum([FromBody] ThreadForumDTO threadForumDTO)
         {
             try 
             {
                 if (threadForumDTO is null) {
                     return BadRequest("Valor de 'Thread' é nulo");
                 }
-                // Person author = new Person(1, threadForumDTO.AuthorName);
-                // Post topic = new Post(1, threadForumDTO.Title, threadForumDTO.Description, DateTime.Now , author);
-                // ThreadForum threadForum = new ThreadForum(1, topic);
-                // _threadForumRepository.dsa(threadForum);
-                ThreadForum threadForum = new ThreadForum();
+
+                ThreadForum threadForum = _threadForumService.PostThreadForum(threadForumDTO);              
                 return Created("GetThreadForum", threadForum);
             } catch (Exception ex) {
                 return StatusCode(500, ex.Message);
@@ -41,7 +37,7 @@ namespace ForumUnifeso.src.API.Controller.ThreadForumController
         {
             try
             {
-                var threads = await _threadForum.GetAllThreadForum();
+                var threads = await _threadForumService.GetAllThreadForum();
                 return Ok(threads);
             }
             catch (Exception ex) {
@@ -54,7 +50,7 @@ namespace ForumUnifeso.src.API.Controller.ThreadForumController
         {
             try
             {
-                var thread = await _threadForum.GetThreadForumById(id);
+                var thread = await _threadForumService.GetThreadForumById(id);
                 if (thread == null) {
                     return NotFound();
                 }
@@ -70,7 +66,7 @@ namespace ForumUnifeso.src.API.Controller.ThreadForumController
         {
             try
             {
-                var thread = await _threadForum.GetThreadForumByTitle(title);
+                var thread = await _threadForumService.GetThreadForumByTitle(title);
                 if (thread == null) {
                     return NotFound();
                 }
@@ -90,7 +86,7 @@ namespace ForumUnifeso.src.API.Controller.ThreadForumController
                     return BadRequest();
                 }
 
-                await _threadForum.PutThreadForum(threadForum);
+                await _threadForumService.PutThreadForum(threadForum);
                 return NoContent();
             }
             catch (Exception ex) {

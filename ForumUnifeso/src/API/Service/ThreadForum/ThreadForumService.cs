@@ -11,12 +11,16 @@ namespace ForumUnifeso.src.API.Service
             throw new NotImplementedException();
         }
 
-        public void DeleteThreadForum(int threadForumId)
+        public ThreadForum PostThreadForum(ThreadForumDTO threadForumDTO) 
         {
-            throw new NotImplementedException();
+            Person author = new Person(1, threadForumDTO.AuthorName);
+            Post topic = new Post(1, threadForumDTO.Title, threadForumDTO.Description, DateTime.Now , author);
+            ThreadForum threadForum = new ThreadForum(1, topic);
+            //ThreadForum threadForum = _threadForumRepository.save(threadForum);
+            return threadForum;
         }
 
-        public async Task<IEnumerable<ThreadForum>> GetAllThreadForum()
+        public async Task<List<ThreadForum>> GetAllThreadForum()
         {
             return await Task.FromResult(_threads);
         }
@@ -34,11 +38,6 @@ namespace ForumUnifeso.src.API.Service
             return await Task.FromResult(thread);
         }
 
-        public void PostThreadForum(ThreadForum threadForum)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task PutThreadForum(ThreadForum threadForum)
         {
             var existingThread = _threads.FirstOrDefault(t => t.Id == threadForum.Id);
@@ -47,6 +46,11 @@ namespace ForumUnifeso.src.API.Service
                 existingThread = threadForum;
             }
             await Task.CompletedTask;
+        }
+
+        public void DeleteThreadForum(int threadForumId)
+        {
+            throw new NotImplementedException();
         }
     }
 }
