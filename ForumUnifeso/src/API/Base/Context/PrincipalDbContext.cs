@@ -35,8 +35,9 @@ namespace ForumUnifeso.src.API.Base.Context
 
                 // Relacionamento com Person (Autor)
                 entity.HasOne(e => e.Author)
-                      .WithMany() // Um Person pode ter muitos Posts, mas um Post tem um autor
-                      .IsRequired(); // Autor é obrigatório
+                  .WithMany(p => p.Posts) // Um Person pode ter muitos Posts
+                  .HasForeignKey(e => e.AuthorId) // Chave estrangeira
+                  .IsRequired();
             });
 
             // Mapeamento da classe ThreadForum
@@ -65,6 +66,11 @@ namespace ForumUnifeso.src.API.Base.Context
                 entity.Property(e => e.Name)
                       .IsRequired()
                       .HasMaxLength(100); // Nome obrigatório
+
+                // Relacionamento com Post (Autor)
+                entity.HasMany(e => e.Posts)
+                      .WithOne(p => p.Author)
+                      .HasForeignKey(p => p.AuthorId); // Chave estrangeira
             });
         }
     }
