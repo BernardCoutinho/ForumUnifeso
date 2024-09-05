@@ -4,13 +4,15 @@
     public class ThreadForum
     {
         public int? Id { get; private set; }
-        // public string Name { get; private set; }
-        public Post? Topic { get; private set; }
-        public List<Post>? Answers {  get; private set; }
         
-        public ThreadForum()
-        {
-        }
+        public Post? Topic { get; private set; }
+
+        public int TopicId { get; private set; }
+
+      
+        public List<Post> Answers { get; private set; } = new List<Post>();
+
+        public ThreadForum() {}
 
         public ThreadForum(int id, Post topic)
         {
