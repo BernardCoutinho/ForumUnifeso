@@ -15,7 +15,7 @@ namespace ForumUnifeso.src.API.Controller.ThreadForumController
             _threadForumService = threadForumService;
         }
 
-        [HttpPost]
+        [HttpPost("/add")]
         public IActionResult PostThreadForum([FromBody] ThreadForumDTO threadForumDTO)
         {
             try 
@@ -32,12 +32,12 @@ namespace ForumUnifeso.src.API.Controller.ThreadForumController
 
         }
 
-        [HttpGet]
+        [HttpGet("/all")]
         public async Task<ActionResult<IEnumerable<ThreadForum>>> GetAllThreadForum() 
         {
             try
             {
-                var threads = await _threadForumService.GetAllThreadForum();
+                var threads = await _threadForumService.GetAllThreadsForum();
                 return Ok(threads);
             }
             catch (Exception ex) {
@@ -46,11 +46,11 @@ namespace ForumUnifeso.src.API.Controller.ThreadForumController
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ThreadForum>> GetThreadForumById(int id)
+        public async Task<ActionResult<ThreadForum>> GetThreadForumById(int threadForumId)
         {
             try
             {
-                var thread = await _threadForumService.GetThreadForumById(id);
+                var thread = await _threadForumService.GetThreadForumById(threadForumId);
                 if (thread == null) {
                     return NotFound();
                 }
@@ -77,23 +77,30 @@ namespace ForumUnifeso.src.API.Controller.ThreadForumController
             }
         }
 
-        [HttpPut]
-        public async Task<IActionResult> PutThreadForum([FromBody] ThreadForum threadForum)
+        [HttpPut("/edit/{id}")]
+        public async Task<ActionResult<ThreadForum>> PutThreadForum(int threadForumId)
         {
             try
-            {
-                if (threadForum == null) {
-                    return BadRequest();
-                }
-
-                await _threadForumService.PutThreadForum(threadForum);
-                return NoContent();
+            {      
+                var threadForumUpdated = await _threadForumService.PutThreadForum(threadForumId);
+                return Ok(threadForumUpdated);
             }
             catch (Exception ex) {
                 return StatusCode(500, ex.Message);
             }
         }
 
-
+        [HttpDelete("/remove/{id}")]
+        public async Task<ActionResult<ThreadForum>> DeleteThreadForum(int threadForumId)
+        {
+            try
+            {                       
+                var threadForumDeleted = await _threadForumService.DeleteThreadForum(threadForumId);
+                return Ok(threadForumDeleted);
+            }
+            catch (Exception ex) {
+                return StatusCode(500, ex.Message);
+            }
+        }
     } 
 }
