@@ -43,11 +43,5 @@ namespace ForumUnifeso.src.API.Service
         {
             return await _repository.UpdateAsync(post);
         }
-
-        public int GeneratePostId()
-        {
-            int lastId =  _repository.GetLastPostIdAsync();
-            return lastId + 1;
-        }
     }
 }

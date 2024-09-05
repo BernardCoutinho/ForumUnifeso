@@ -44,9 +44,6 @@ namespace ForumUnifeso.src.API.Base.Context
             modelBuilder.Entity<ThreadForum>(entity =>
             {
                 entity.HasKey(e => e.Id); // Chave primária
-                entity.Property(e => e.Name)
-                      .IsRequired()
-                      .HasMaxLength(100); // Nome do tópico obrigatório
 
                 // Relacionamento 1:1 entre ThreadForum e Post (Topic)
                 entity.HasOne(e => e.Topic)
