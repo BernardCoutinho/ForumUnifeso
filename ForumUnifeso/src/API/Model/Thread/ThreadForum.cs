@@ -1,7 +1,7 @@
 ﻿namespace ForumUnifeso.src.API.Model
 {
 
-    public class Thread
+    public class ThreadForum
     {
         public int Id { get; private set; }
         public string Name { get; private set; }

@@ -18,11 +18,11 @@ namespace ForumUnifeso.src.API.Controller
             _postService = postService;
             _mapper = mapper;
         }
-        
+
         [HttpPost]
-        public IActionResult CreatePost([FromBody] PostRequest postRequest)
+        public async Task<IActionResult> CreatePostAsync([FromBody] PostRequest postRequest)
         {
-            if(postRequest is null)
+            if (postRequest is null)
             {
                 return BadRequest("Post data is null.");
             }
@@ -31,10 +31,10 @@ namespace ForumUnifeso.src.API.Controller
             {
                 Post post = _mapper.Map<Post>(postRequest);
 
-                _postService.CreatePost(post);
+               await _postService.AddAsync(post);
 
                 PostResponse response = _mapper.Map<PostResponse>(post);
-                return Ok(response);
+                return CreatedAtAction(nameof(PostResponse), response);
             }
             catch (AutoMapperMappingException ex)
             {
