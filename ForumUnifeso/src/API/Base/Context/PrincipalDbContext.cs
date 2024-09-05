@@ -18,56 +18,71 @@ namespace ForumUnifeso.src.API.Base.Context
             // Mapeamento da classe Post
             modelBuilder.Entity<Post>(entity =>
             {
-                entity.HasKey(e => e.Id); // Chave primária
+                entity.HasKey(e => e.Id);
 
                 entity.Property(e => e.Id)
-                 .ValueGeneratedOnAdd(); // Gera o Id ao criar.
+                 .ValueGeneratedOnAdd(); 
 
                 entity.Property(e => e.Title)
                       .IsRequired()
-                      .HasMaxLength(200); // Título obrigatório com limite de 200 caracteres
+                      .HasMaxLength(200); 
 
                 entity.Property(e => e.Description)
-                      .HasMaxLength(1000); // Descrição opcional com limite de 1000 caracteres
+                      .HasMaxLength(1000); 
 
                 entity.Property(e => e.Date)
-                      .IsRequired(); // Data obrigatória
+                      .IsRequired(); 
 
                 // Relacionamento com Person (Autor)
                 entity.HasOne(e => e.Author)
-                  .WithMany(p => p.Posts) // Um Person pode ter muitos Posts
-                  .HasForeignKey(e => e.AuthorId) // Chave estrangeira
+                  .WithMany(p => p.Posts) 
+                  .HasForeignKey(e => e.AuthorId) 
                   .IsRequired();
+
+                // Relacionamento com ThreadForum (ThreadForum)
+                entity.HasOne(e => e.ThreadForum)
+                  .WithMany(tf => tf.Answers)
+                  .HasForeignKey(e => e.ThreadForumId)
+                  .OnDelete(DeleteBehavior.SetNull);
             });
 
             // Mapeamento da classe ThreadForum
             modelBuilder.Entity<ThreadForum>(entity =>
             {
-                entity.HasKey(e => e.Id); // Chave primária
+                entity.HasKey(e => e.Id); 
 
-                // Relacionamento 1:1 entre ThreadForum e Post (Topic)
+                entity.Property(e => e.Id)
+                .ValueGeneratedOnAdd();
+
+                // Relacionamento com Post (Topic)
                 entity.HasOne(e => e.Topic)
-                      .WithMany() // Um tópico pertence a apenas uma thread
-                      .IsRequired(); // Tópico é obrigatório
+                  .WithOne() 
+                  .HasForeignKey<ThreadForum>(e => e.TopicId) 
+                  .OnDelete(DeleteBehavior.Restrict);
 
-                // Relacionamento 1:N entre ThreadForum e Posts (Answers)
+                // Relacionamento com Posts (Answers)
                 entity.HasMany(e => e.Answers)
-                      .WithOne() // Cada resposta está relacionada a uma única thread
-                      .IsRequired(false); // Respostas são opcionais
+                  .WithOne(p => p.ThreadForum)
+                  .HasForeignKey(p => p.ThreadForumId)
+                  .OnDelete(DeleteBehavior.SetNull);
             });
 
             // Mapeamento da classe Person
             modelBuilder.Entity<Person>(entity =>
             {
-                entity.HasKey(e => e.Id); // Chave primária
+                entity.HasKey(e => e.Id); 
+
+                entity.Property(e => e.Id)
+                .ValueGeneratedOnAdd();
+
                 entity.Property(e => e.Name)
                       .IsRequired()
-                      .HasMaxLength(100); // Nome obrigatório
+                      .HasMaxLength(100); 
 
                 // Relacionamento com Post (Autor)
                 entity.HasMany(e => e.Posts)
                       .WithOne(p => p.Author)
-                      .HasForeignKey(p => p.AuthorId); // Chave estrangeira
+                      .HasForeignKey(p => p.AuthorId); 
             });
         }
     }
