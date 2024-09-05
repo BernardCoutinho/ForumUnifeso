@@ -5,6 +5,7 @@ namespace ForumUnifeso.src.API.Service
 {
     public class ThreadForumService : IThreadForumService
     {
+        private readonly List<ThreadForum> _threads = new();
         public void CreateThreadForum(ThreadForum ThreadForum) 
         {
             throw new NotImplementedException();
@@ -15,14 +16,22 @@ namespace ForumUnifeso.src.API.Service
             throw new NotImplementedException();
         }
 
-        public void GetAllThreadForum()
+        public async Task<IEnumerable<ThreadForum>> GetAllThreadForum()
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(_threads);
         }
 
-        public void GetThreadForum(int threadForumId)
+        public async Task<ThreadForum?> GetThreadForumById(int id)
         {
-            throw new NotImplementedException();
+            var thread = _threads.FirstOrDefault(t => t.Id == id);
+            return await Task.FromResult(thread);
+        }
+
+        public async Task<ThreadForum?> GetThreadForumByTitle(string title)
+        {
+
+            var thread = _threads.FirstOrDefault(t => t?.Topic?.Title == title);
+            return await Task.FromResult(thread);
         }
 
         public void PostThreadForum(ThreadForum threadForum)
@@ -30,9 +39,14 @@ namespace ForumUnifeso.src.API.Service
             throw new NotImplementedException();
         }
 
-        public void PutThreadForum(ThreadForum threadForum)
+        public async Task PutThreadForum(ThreadForum threadForum)
         {
-            throw new NotImplementedException();
+            var existingThread = _threads.FirstOrDefault(t => t.Id == threadForum.Id);
+            if (existingThread != null)
+            {
+                existingThread = threadForum;
+            }
+            await Task.CompletedTask;
         }
     }
 }

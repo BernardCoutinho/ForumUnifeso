@@ -1,8 +1,6 @@
-using System.CodeDom.Compiler;
 using ForumUnifeso.src.API.Interface;
 using ForumUnifeso.src.API.Model;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace ForumUnifeso.src.API.Controller.ThreadForumController
 {
@@ -38,10 +36,68 @@ namespace ForumUnifeso.src.API.Controller.ThreadForumController
 
         }
 
-        [HttpGet("/all")]
-        public async Task<ActionResult<IEnumerable<ThreadForum>>> GetAllThreads() {
-            // async 
-            return new List<ThreadForum> {};
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ThreadForum>>> GetAllThreadForum() 
+        {
+            try
+            {
+                var threads = await _threadForum.GetAllThreadForum();
+                return Ok(threads);
+            }
+            catch (Exception ex) {
+                return StatusCode(500, ex.Message);
+            }
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ThreadForum>> GetThreadForumById(int id)
+        {
+            try
+            {
+                var thread = await _threadForum.GetThreadForumById(id);
+                if (thread == null) {
+                    return NotFound();
+                }
+                return Ok(thread);
+            }
+            catch (Exception ex) {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("title/{title}")]
+        public async Task<ActionResult<ThreadForum>> GetThreadForumByTitle(string title)
+        {
+            try
+            {
+                var thread = await _threadForum.GetThreadForumByTitle(title);
+                if (thread == null) {
+                    return NotFound();
+                }
+                return Ok(thread);
+            }
+            catch (Exception ex) {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> PutThreadForum([FromBody] ThreadForum threadForum)
+        {
+            try
+            {
+                if (threadForum == null) {
+                    return BadRequest();
+                }
+
+                await _threadForum.PutThreadForum(threadForum);
+                return NoContent();
+            }
+            catch (Exception ex) {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+
     } 
 }
