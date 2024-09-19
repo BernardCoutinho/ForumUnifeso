@@ -1,3 +1,4 @@
+using ForumUnifeso.src.API.View;
 using ForumUnifeso.src.API.Interface;
 using ForumUnifeso.src.API.Model;
 using Microsoft.AspNetCore.Mvc;
@@ -16,16 +17,16 @@ namespace ForumUnifeso.src.API.Controller.ThreadForumController
         }
 
         [HttpPost("/add")]
-        public IActionResult PostThreadForum([FromBody] ThreadForumDTO threadForumDTO)
+        public async Task<IActionResult> PostThreadForum([FromBody] ThreadForumDTO threadForumRequest)
         {
             try 
             {
-                if (threadForumDTO is null) {
+                if (threadForumRequest is null) {
                     return BadRequest("Valor de 'Thread' é nulo");
                 }
 
-                ThreadForum threadForum = _threadForumService.PostThreadForum(threadForumDTO);              
-                return Created("GetThreadForum", threadForum);
+                ThreadForumDTO threadForumRespose = await _threadForumService.AddAsync(threadForumRequest);              
+                return Created("GetThreadForum", threadForumRespose);
             } catch (Exception ex) {
                 return StatusCode(500, ex.Message);
             }
@@ -37,7 +38,7 @@ namespace ForumUnifeso.src.API.Controller.ThreadForumController
         {
             try
             {
-                var threads = await _threadForumService.GetAllThreadsForum();
+                var threads = await _threadForumService.GetAllAsync();
                 return Ok(threads);
             }
             catch (Exception ex) {
@@ -50,7 +51,7 @@ namespace ForumUnifeso.src.API.Controller.ThreadForumController
         {
             try
             {
-                var thread = await _threadForumService.GetThreadForumById(threadForumId);
+                var thread = await _threadForumService.GetByIdAsync(threadForumId);
                 if (thread == null) {
                     return NotFound();
                 }
@@ -66,7 +67,7 @@ namespace ForumUnifeso.src.API.Controller.ThreadForumController
         {
             try
             {
-                var thread = await _threadForumService.GetThreadForumByTitle(title);
+                var thread = await _threadForumService.GetByTitleAsync(title);
                 if (thread == null) {
                     return NotFound();
                 }
@@ -78,11 +79,11 @@ namespace ForumUnifeso.src.API.Controller.ThreadForumController
         }
 
         [HttpPut("/edit/{id}")]
-        public async Task<ActionResult<ThreadForum>> PutThreadForum(int threadForumId)
+        public async Task<ActionResult<ThreadForum>> PutThreadForum(ThreadForumDTO threadForumRequest)
         {
             try
             {      
-                var threadForumUpdated = await _threadForumService.PutThreadForum(threadForumId);
+                var threadForumUpdated = await _threadForumService.UpdateAsync(threadForumRequest);
                 return Ok(threadForumUpdated);
             }
             catch (Exception ex) {
@@ -91,11 +92,11 @@ namespace ForumUnifeso.src.API.Controller.ThreadForumController
         }
 
         [HttpDelete("/remove/{id}")]
-        public async Task<ActionResult<ThreadForum>> DeleteThreadForum(int threadForumId)
+        public async Task<ActionResult<ThreadForum>> DeleteThreadForumById(int threadForumId)
         {
             try
             {                       
-                var threadForumDeleted = await _threadForumService.DeleteThreadForum(threadForumId);
+                var threadForumDeleted = await _threadForumService.DeleteByIdAsync(threadForumId);
                 return Ok(threadForumDeleted);
             }
             catch (Exception ex) {

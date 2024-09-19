@@ -12,6 +12,9 @@ namespace ForumUnifeso.src.API.Config
 
             CreateMap<PostRequest, Post>();
             CreateMap<Post, PostResponse>();
+
+            CreateMap<ThreadForumDTO, ThreadForum>();
+            CreateMap<ThreadForum, ThreadForumDTO>();
         }
     }
 }

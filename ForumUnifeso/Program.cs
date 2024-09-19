@@ -14,6 +14,7 @@ builder.Services.AddScoped<IThreadForumService, ThreadForumService>();
 
 builder.Services.AddScoped<IPersonRepository, PersonRepository>();
 builder.Services.AddScoped<IPostRepository, PostRepository>();
+builder.Services.AddScoped<IThreadForumRepository, ThreadForumRepository>();
 
 builder.Services.AddControllers();
 

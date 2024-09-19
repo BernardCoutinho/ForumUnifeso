@@ -1,65 +1,63 @@
+using AutoMapper;
+using ForumUnifeso.src.API.Base;
 using ForumUnifeso.src.API.Interface;
 using ForumUnifeso.src.API.Model;
+using ForumUnifeso.src.API.View;
 
 namespace ForumUnifeso.src.API.Service
 {
     public class ThreadForumService : IThreadForumService
     {
-        // private readonly ThreadForumRepository _threadForumRepository;
+        private readonly IThreadForumRepository _threadForumRepository;
 
-        // public ThreadForumService(ThreadForumRepository threadForumRepository) {
-        //     _threadForumRepository = threadForumRepository;
-        // }
+        private readonly IMapper _mapper;
 
-        public ThreadForum PostThreadForum(ThreadForumDTO threadForumDTO) 
-        {
-            Person author = new Person(1, threadForumDTO.AuthorName);
-            Post topic = new Post(1, threadForumDTO.Title, threadForumDTO.Description, DateTime.Now , author);
-            ThreadForum threadForum = new ThreadForum(1, topic);
-            //substituir
-            ThreadForum savedThreadForum = threadForum;
-            //ThreadForum savedThreadForum = _threadForumRepository.Save(threadForum);
-            return savedThreadForum;
+        public ThreadForumService(IThreadForumRepository threadForumRepository, IMapper mapper) {
+            _threadForumRepository = threadForumRepository;
+            _mapper = mapper;
         }
 
-        public async Task<List<ThreadForum>> GetAllThreadsForum()
+        public async Task<ThreadForumDTO> AddAsync(ThreadForumDTO threadForumDTO)
         {
-            //substituir
-            List<ThreadForum> threadsForum = new List<ThreadForum>();
-            //ThreadForum threadForum = _threadForumRepository.GetAll(threadForum);
-            return await Task.FromResult(threadsForum);
+            ThreadForum threadForum = _mapper.Map<ThreadForum>(threadForumDTO);
+            ThreadForum threadForumSaved = await _threadForumRepository.AddAsync(threadForum);
+            return _mapper.Map<ThreadForumDTO>(threadForumSaved);
         }
 
-        public async Task<ThreadForum?> GetThreadForumById(int threadId)
+        public Task<bool> DeleteAsync(ThreadForumDTO threadForumDTO)
         {
-            //substituir
-            var thread = new ThreadForum();
-            //ThreadForum threadForum = _threadForumRepository.GetById(threadId);
-            return await Task.FromResult(thread);
+            ThreadForum threadForum = _mapper.Map<ThreadForum>(threadForumDTO);
+            return _threadForumRepository.DeleteAsync(threadForum);
         }
 
-        public async Task<ThreadForum?> GetThreadForumByTitle(string threadTitle)
+        public Task<bool> DeleteByIdAsync(int threadForumId)
         {
-            //substituir
-            var thread = new ThreadForum();
-            //ThreadForum threadForum = _threadForumRepository.GetByTitle(threadTitle);
-            return await Task.FromResult(thread);
+            return _threadForumRepository.DeleteByIdAsync(threadForumId);
         }
 
-        public async Task<ThreadForum?> PutThreadForum(int threadForumId)
+        public async Task<IEnumerable<ThreadForumDTO>> GetAllAsync()
         {
-            //substituir
-            var threadForumUpdated = new ThreadForum();
-            //ThreadForum threadForumUpdated = _threadForumRepository.Update(threadForumId);
-            return await Task.FromResult(threadForumUpdated);
+            IEnumerable<ThreadForum> threadsForum = await _threadForumRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<ThreadForumDTO>>(threadsForum);
         }
 
-        public async Task<ThreadForum?> DeleteThreadForum(int threadForumId)
+        public async Task<ThreadForumDTO?> GetByIdAsync(int threadForumId)
         {
-            //substituir
-            var threadForumDeleted = new ThreadForum();
-            //ThreadForum threadForumUpdated = _threadForumRepository.Delete(threadForum);
-            return await Task.FromResult(threadForumDeleted);
+            ThreadForum? threadForum = await _threadForumRepository.GetByIdAsync(threadForumId);
+            return _mapper.Map<ThreadForumDTO>(threadForum);
+        }
+
+        public async Task<ThreadForumDTO?> GetByTitleAsync(string threadForumTitle)
+        {
+            ThreadForum? threadForum = await _threadForumRepository.GetByTitleAsync(threadForumTitle);
+            return _mapper.Map<ThreadForumDTO>(threadForum);
+        }
+
+        public async Task<ThreadForumDTO> UpdateAsync(ThreadForumDTO threadForumDTO)
+        {
+            ThreadForum threadForum = _mapper.Map<ThreadForum>(threadForumDTO);
+            ThreadForum threadForumUpdated = await _threadForumRepository.UpdateAsync(threadForum);
+            return _mapper.Map<ThreadForumDTO>(threadForumUpdated);
         }
     }
 }

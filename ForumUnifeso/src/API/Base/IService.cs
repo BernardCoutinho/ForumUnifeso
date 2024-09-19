@@ -1,11 +1,12 @@
 ﻿namespace ForumUnifeso.src.API.Base
 {
-    public interface IService<TEntity, TKey>
+    public interface IService<TDTO, TId>
     {
-        Task<TEntity?> GetByIdAsync(TKey id);
-        Task<IEnumerable<TEntity>> GetAllAsync();
-        Task<TEntity> AddAsync(TEntity entity);
-        Task<TEntity> UpdateAsync(TEntity entity);
-        Task<bool> DeleteAsync(TEntity id);
+        Task<TDTO?> GetByIdAsync(TId id);
+        Task<IEnumerable<TDTO>> GetAllAsync();
+        Task<TDTO> AddAsync(TDTO dto);
+        Task<TDTO> UpdateAsync(TDTO dto);
+        Task<bool> DeleteAsync(TDTO dto);
+        Task<bool> DeleteByIdAsync(TId id);
     }
 }
