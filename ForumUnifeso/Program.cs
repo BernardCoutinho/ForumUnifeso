@@ -1,4 +1,3 @@
-using ForumUnifeso.src.API.Base;
 using ForumUnifeso.src.API.Base.Context;
 using ForumUnifeso.src.API.Interface;
 using ForumUnifeso.src.API.Repository;
@@ -24,10 +23,7 @@ builder.Services.AddScoped<IThreadForumRepository, ThreadForumRepository>();
 
 builder.Services.AddControllers();
 
-builder.Services.AddAutoMapper(typeof(Program)); // Configura o AutoMapper para escanear por perfis no assembly atual
-
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(opt =>
@@ -38,7 +34,6 @@ builder.Services.AddSwaggerGen(opt =>
         Version = "v1"
     });
 
-    // Define security scheme
     opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
     {
         Type = SecuritySchemeType.ApiKey,
@@ -48,7 +43,6 @@ builder.Services.AddSwaggerGen(opt =>
         BearerFormat = "JWT"
     });
 
-    // Apply security to endpoints
     opt.AddSecurityRequirement(new OpenApiSecurityRequirement
         {
             {
@@ -66,8 +60,8 @@ builder.Services.AddSwaggerGen(opt =>
 });
 
 builder.Services.AddDbContext<PrincipalDbContext>(opt =>
-     opt.UseInMemoryDatabase("InMemoryDb")
-    //opt.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=master;Trusted_Connection=True;TrustServerCertificate=True")
+     //opt.UseInMemoryDatabase("InMemoryDb")
+    opt.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=master;Trusted_Connection=True;TrustServerCertificate=True")
     );
 
 builder.Services.AddAuthentication((opt) =>
@@ -94,7 +88,6 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
