@@ -3,9 +3,11 @@ using ForumUnifeso.src.API.Base.Context;
 using ForumUnifeso.src.API.Interface;
 using ForumUnifeso.src.API.Repository;
 using ForumUnifeso.src.API.Service;
+using ForumUnifeso.src.API.Service.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<IThreadForumService, ThreadForumService>();
+builder.Services.AddScoped<AuthService>();
 
 builder.Services.AddScoped<IPersonRepository, PersonRepository>();
 builder.Services.AddScoped<IPostRepository, PostRepository>();
@@ -26,7 +29,41 @@ builder.Services.AddAutoMapper(typeof(Program)); // Configura o AutoMapper para 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(opt =>
+{
+    opt.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "ForumUnifesoApi",
+        Version = "v1"
+    });
+
+    // Define security scheme
+    opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+    {
+        Type = SecuritySchemeType.ApiKey,
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Scheme = "Bearer",
+        BearerFormat = "JWT"
+    });
+
+    // Apply security to endpoints
+    opt.AddSecurityRequirement(new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                    }
+                },
+                Array.Empty<string>()
+            }
+        });
+});
 
 builder.Services.AddDbContext<PrincipalDbContext>(opt =>
      opt.UseInMemoryDatabase("InMemoryDb")
