@@ -14,6 +14,7 @@ builder.Services.AddScoped<IThreadForumService, ThreadForumService>();
 
 builder.Services.AddScoped<IPersonRepository, PersonRepository>();
 builder.Services.AddScoped<IPostRepository, PostRepository>();
+builder.Services.AddScoped<IThreadForumRepository, ThreadForumRepository>();
 
 builder.Services.AddControllers();
 
@@ -25,7 +26,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<PrincipalDbContext>(opt =>
-    opt.UseInMemoryDatabase("InMemoryDb"));
+    // opt.UseInMemoryDatabase("InMemoryDb")
+    opt.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=master;Trusted_Connection=True;TrustServerCertificate=True")
+    );
 
 var app = builder.Build();
 
