@@ -26,7 +26,7 @@ namespace ForumUnifeso.src.API.Controller.Auth
             }
 
             
-            if (login.Username == "admin" && login.Password == "password")
+            if (login.Username == "admin" && login.Password == "123")
             {
                 var token = _authService.GenerateJwtToken(login.Username);
                 return Ok(new { token }); 
