@@ -5,6 +5,6 @@ namespace ForumUnifeso.src.API.Interface
 {
     public interface IThreadForumRepository : IRepository<ThreadForum, int>
     {
-        Task<ThreadForum?> GetByTitleAsync(string threadForumTitle);
+        Task<IEnumerable<ThreadForum>> GetByTitleAsync(string threadForumTitle);
     }
 }

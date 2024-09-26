@@ -1,6 +1,6 @@
 namespace ForumUnifeso.src.API.View
 {
-    public class ThreadForumDTO {
+    public class ThreadForumRequest {
         public PostRequest? Topic { get;  set; }
     }
 }

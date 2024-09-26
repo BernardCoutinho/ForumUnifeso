@@ -1,9 +1,10 @@
 ﻿namespace ForumUnifeso.src.API.Interface
 {
     using ForumUnifeso.src.API.Base;
-    using ForumUnifeso.src.API.View;
-    public interface IThreadForumService : IService<ThreadForumDTO, int>
+    using ForumUnifeso.src.API.Model;
+
+    public interface IThreadForumService : IService<ThreadForum, int>
     {
-        Task<ThreadForumDTO?> GetByTitleAsync(string threadForumTitle);
+        Task<IEnumerable<ThreadForum>> GetByTitleAsync(string threadForumTitle);
     }
 }

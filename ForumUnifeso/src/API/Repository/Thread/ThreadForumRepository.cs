@@ -45,19 +45,29 @@ namespace ForumUnifeso.src.API.Repository
 
         public async Task<IEnumerable<ThreadForum>> GetAllAsync()
         {
-            return await _context.ThreadForum.ToListAsync();
+            return await _context.ThreadForum
+            .Include(tf => tf.Topic)
+            .ThenInclude(p => p.Author)
+            .ToListAsync();
         }
 
         public async Task<ThreadForum?> GetByIdAsync(int threadForumId)
         {
-            return await _context.ThreadForum.FindAsync(threadForumId);
+            return await _context.ThreadForum
+            .Include(tf => tf.Answers)
+            .Include(tf => tf.Topic)
+            .ThenInclude(p => p.Author)
+            .FirstOrDefaultAsync(tf => tf.Id == threadForumId);
         }
 
-        public async Task<ThreadForum?> GetByTitleAsync(string threadForumTitle)
+        public async Task<IEnumerable<ThreadForum>> GetByTitleAsync(string threadForumTitle)
         {
-            return await _context.ThreadForum.FirstOrDefaultAsync(threadForum =>
-                threadForum.Topic != null && threadForum.Topic.Title == threadForumTitle
-            );
+            return await _context.ThreadForum
+            .Include(tf => tf.Answers)
+            .Include(tf => tf.Topic)
+            .ThenInclude(p => p.Author)
+            .Where(threadForum => threadForum.Topic != null && threadForum.Topic.Title == threadForumTitle)
+            .ToListAsync();
         }
 
         public async Task<ThreadForum> UpdateAsync(ThreadForum threadForum)

@@ -9,12 +9,16 @@ namespace ForumUnifeso.src.API.Config
         {
             CreateMap<Person, PersonResponse>();
             CreateMap<PersonRequest, Person>();
+            CreateMap<Person, PersonRequest>();
+            CreateMap<PersonResponse, Person>();
 
             CreateMap<PostRequest, Post>();
             CreateMap<Post, PostResponse>();
+            CreateMap<Post, PostRequest>();
+            CreateMap<PostResponse, Post>();
 
-            CreateMap<ThreadForumDTO, ThreadForum>();
-            CreateMap<ThreadForum, ThreadForumDTO>();
+            CreateMap<ThreadForumRequest, ThreadForum>();
+            CreateMap<ThreadForum, ThreadForumResponse>();
         }
     }
 }
