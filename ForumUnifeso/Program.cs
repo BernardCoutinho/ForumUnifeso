@@ -60,8 +60,8 @@ builder.Services.AddSwaggerGen(opt =>
 });
 
 builder.Services.AddDbContext<PrincipalDbContext>(opt =>
-     //opt.UseInMemoryDatabase("InMemoryDb")
-    opt.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=master;Trusted_Connection=True;TrustServerCertificate=True")
+     opt.UseInMemoryDatabase("InMemoryDb")
+    //opt.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=master;Trusted_Connection=True;TrustServerCertificate=True")
     );
 
 builder.Services.AddAuthentication((opt) =>
