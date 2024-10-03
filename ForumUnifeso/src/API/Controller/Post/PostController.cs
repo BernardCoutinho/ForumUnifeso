@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using ForumUnifeso.src.API.Model;
 using ForumUnifeso.src.API.View;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ForumUnifeso.src.API.Controller
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class PostController : ControllerBase
