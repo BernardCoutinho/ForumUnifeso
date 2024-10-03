@@ -3,9 +3,11 @@ using ForumUnifeso.src.API.Interface;
 using ForumUnifeso.src.API.Model;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ForumUnifeso.src.API.Controller.ThreadForumController
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ThreadForumController : ControllerBase {
@@ -40,12 +42,12 @@ namespace ForumUnifeso.src.API.Controller.ThreadForumController
         }
 
         [HttpGet("/all")]
-        public async Task<ActionResult<IEnumerable<ThreadForum>>> GetAllThreadForum() 
+        public async Task<ActionResult<IEnumerable<ThreadForumSimpleResponse>>> GetAllThreadForum() 
         {
             try
             {
                 var threadsForum = await _threadForumService.GetAllAsync();
-                return Ok(_mapper.Map<IEnumerable<ThreadForumResponse>>(threadsForum));
+                return Ok(_mapper.Map<IEnumerable<ThreadForumSimpleResponse>>(threadsForum));
             }
             catch (Exception ex) {
                 return StatusCode(500, ex.Message);
@@ -53,7 +55,7 @@ namespace ForumUnifeso.src.API.Controller.ThreadForumController
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ThreadForum>> GetThreadForumById(int id)
+        public async Task<ActionResult<ThreadForumResponse>> GetThreadForumById(int id)
         {
             try
             {
@@ -69,12 +71,12 @@ namespace ForumUnifeso.src.API.Controller.ThreadForumController
         }
 
         [HttpGet("title/{title}")]
-        public async Task<ActionResult<IEnumerable<ThreadForum>>> GetThreadForumByTitle(string title)
+        public async Task<ActionResult<IEnumerable<ThreadForumSimpleResponse>>> GetThreadForumByTitle(string title)
         {
             try
             {
                 var threadsForum = await _threadForumService.GetByTitleAsync(title);
-                return Ok(_mapper.Map<IEnumerable<ThreadForumResponse>>(threadsForum));
+                return Ok(_mapper.Map<IEnumerable<ThreadForumSimpleResponse>>(threadsForum));
             }
             catch (Exception ex) {
                 return StatusCode(500, ex.Message);
@@ -82,7 +84,7 @@ namespace ForumUnifeso.src.API.Controller.ThreadForumController
         }
 
         [HttpPut("/edit/{id}")]
-        public async Task<ActionResult<ThreadForum>> PutThreadForum(int id, ThreadForumRequest threadForumRequest)
+        public async Task<ActionResult<ThreadForumResponse>> PutThreadForum(int id, ThreadForumRequest threadForumRequest)
         {
             try
             {   

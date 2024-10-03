@@ -5,11 +5,11 @@ namespace ForumUnifeso.src.API.View
 {
     public class PostResponse
     {
-        public string Title { get; private set; }
+        public string Title { get; set; }
        
-        public string Description { get; private set; }
-        public DateTime Date { get; private set; }
+        public string Description { get; set; }
+        public DateTime Date { get; set; }
 
-        public PersonResponse Author { get; private set; }
+        public PersonResponse Author { get; set; }
     }
 }
