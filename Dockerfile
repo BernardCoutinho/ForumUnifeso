@@ -2,6 +2,7 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 80
+EXPOSE 443
 
 # Use a imagem do SDK do .NET 8.0.8 para build
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
