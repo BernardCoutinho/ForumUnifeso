@@ -1,10 +1,10 @@
 # Use a imagem base do .NET ASP.NET 8.0.8
-FROM mcr.microsoft.com/dotnet/aspnet:8.0.8 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
 WORKDIR /app
 EXPOSE 80
 
 # Use a imagem do SDK do .NET 8.0.8 para build
-FROM mcr.microsoft.com/dotnet/sdk:8.0.8 AS build
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
 # Copie o arquivo de projeto e restaure dependências
