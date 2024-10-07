@@ -11,5 +11,7 @@ namespace ForumUnifeso.src.API.View
         public DateTime Date { get;  set; }
 
         public PersonRequest Author { get;  set; }
+
+        public int ThreadForumId { get; set; }
     }
 }
