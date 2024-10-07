@@ -2,17 +2,17 @@
 {
     public class Post
     {
-        public int Id { get; private set; }
-        public string Title { get; private set; }
-        public string Description { get; private set; }
-        public DateTime Date{ get; private set; }
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public DateTime Date{ get; set; }
 
-        public Person Author { get; private set; }
-        public int AuthorId { get; private set; }
+        public Person Author { get; set; }
+        public int AuthorId { get; set; }
 
 
-        public int? ThreadForumId { get; private set; }
-        public ThreadForum ThreadForum { get; private set; }
+        public int? ThreadForumId { get; set; }
+        public ThreadForum ThreadForum { get; set; }
 
         public Post() {}
         public Post(int id, string title, string description, DateTime date, Person author) 
