@@ -2,37 +2,35 @@
 namespace ForumUnifeso.src.API.Controller.Auth
 {
     using Microsoft.AspNetCore.Mvc;
-    using ForumUnifeso.src.API.Service.Auth;
-    using ForumUnifeso.src.API.Model.User;
+    using ForumUnifeso.src.API.Interface.Login;
+    using ForumUnifeso.src.API.View.Login;
 
     [ApiController]
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly AuthService _authService;
+        private readonly ILoginService _loginService;
 
-        public AuthController(AuthService authService)
+        public AuthController(ILoginService authService)
         {
-            _authService = authService;
+            _loginService = authService;
         }
 
         [HttpPost("login")]
-        public IActionResult Login([FromBody] UserLogin login)
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState); 
+                return BadRequest(ModelState);
             }
 
-            
-            if (login.Username == "admin" && login.Password == "123")
-            {
-                var token = _authService.GenerateJwtToken(login.Username);
-                return Ok(new { token }); 
-            }
+            var token = await _loginService.Authenticate(request.Username, request.Password);
 
-            return Unauthorized(new { message = "Credenciais inválidas" });
+            if (token == null)
+                return Unauthorized(new { message = "Credenciais inválidas" });
+
+            return Ok(new { Token = token });
         }
     }
 }
