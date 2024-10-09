@@ -30,7 +30,7 @@ namespace ForumUnifeso.src.API.Controller.Auth
             if (token == null)
                 return Unauthorized(new { message = "Credenciais inválidas" });
 
-            return Ok(new { Token = token });
+            return Ok(new { Token = "Bearer " + token });
         }
     }
 }

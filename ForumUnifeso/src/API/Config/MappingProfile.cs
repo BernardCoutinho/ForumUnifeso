@@ -19,6 +19,7 @@ namespace ForumUnifeso.src.API.Config
 
             CreateMap<ThreadForumRequest, ThreadForum>();
             CreateMap<ThreadForum, ThreadForumResponse>();
+            CreateMap<ThreadForum, ThreadForumSimpleResponse>();
         }
     }
 }

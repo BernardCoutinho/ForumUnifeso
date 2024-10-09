@@ -69,8 +69,8 @@ builder.Services.AddSwaggerGen(opt =>
 });
 
 builder.Services.AddDbContext<PrincipalDbContext>(opt =>
-     opt.UseInMemoryDatabase("InMemoryDb")
-    //opt.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=master;Trusted_Connection=True;TrustServerCertificate=True")
+    opt.UseInMemoryDatabase("InMemoryDb")
+    // opt.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=master;Trusted_Connection=True;TrustServerCertificate=True")
     );
 
 builder.Services.AddAuthentication((opt) =>
@@ -97,19 +97,31 @@ builder.Services.AddAuthentication((opt) =>
 
 builder.Services.AddAuthorization();
 
-var app = builder.Build();
+try {
+    var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
+    // Configure the HTTP request pipeline.
+    // if (app.Environment.IsDevelopment())
+    // {
+    //     app.UseSwagger();
+    //     app.UseSwaggerUI();
+    // }
+
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    app.UseHttpsRedirection();
+
+    app.UseAuthentication();
+    app.UseAuthorization();
+
+    app.MapControllers();
+
+    app.Run();
+
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
+catch (Exception ex)
+{
+    Console.WriteLine($"Unhandled exception: {ex}");
+    throw;
+}
