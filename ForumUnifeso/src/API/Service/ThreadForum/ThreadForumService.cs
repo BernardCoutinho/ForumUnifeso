@@ -34,6 +34,11 @@ namespace ForumUnifeso.src.API.Service
             return await _threadForumRepository.GetAllAsync();
         }
 
+        public async Task<IEnumerable<ThreadForum>> GetAllByTagAsync(string tag)
+        {
+            return await _threadForumRepository.GetAllByTagAsync(tag);
+        }
+
         public async Task<ThreadForum?> GetByIdAsync(int threadForumId)
         {
             return await _threadForumRepository.GetByIdAsync(threadForumId);
