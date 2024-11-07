@@ -8,5 +8,7 @@
         Task<IEnumerable<ThreadForum>> GetByTitleAsync(string threadForumTitle);
 
         Task<bool> DeleteByIdAsync(int id);
+        
+        Task<IEnumerable<ThreadForum>> GetAllByTagAsync(string tag);
     }
 }
