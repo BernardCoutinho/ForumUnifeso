@@ -99,6 +99,16 @@ builder.Services.AddAuthentication((opt) =>
 
 builder.Services.AddAuthorization();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000")
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
 try {
     var app = builder.Build();
 
@@ -116,6 +126,10 @@ try {
 
     app.UseAuthentication();
     app.UseAuthorization();
+
+    app.MapControllers();
+
+    app.UseCors("AllowReactApp");
 
     app.MapControllers();
 

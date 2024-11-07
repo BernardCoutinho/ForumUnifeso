@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ForumUnifeso.src.API.Controller.ThreadForumController
 {
-    [Authorize]
+    // [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ThreadForumController : ControllerBase {
