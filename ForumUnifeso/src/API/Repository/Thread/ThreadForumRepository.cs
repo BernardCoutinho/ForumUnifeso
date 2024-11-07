@@ -51,6 +51,20 @@ namespace ForumUnifeso.src.API.Repository
             .ToListAsync();
         }
 
+        public async Task<IEnumerable<ThreadForum>> GetAllByTagAsync(string tag)
+        {
+            if (Enum.TryParse(tag, out Tag tagEnum))
+            {
+                return await _context.ThreadForum
+                    .Include(tf => tf.Topic)
+                    .ThenInclude(p => p.Author)
+                    .Where(threadForum => threadForum.Tag == tagEnum)
+                    .ToListAsync();
+            }
+            
+            return Enumerable.Empty<ThreadForum>();
+        }
+
         public async Task<ThreadForum?> GetByIdAsync(int threadForumId)
         {
             return await _context.ThreadForum

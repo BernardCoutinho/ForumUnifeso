@@ -1,4 +1,5 @@
 ﻿using ForumUnifeso.src.API.Model;
+using ForumUnifeso.src.API.Model.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace ForumUnifeso.src.API.Base.Context
@@ -12,6 +13,7 @@ namespace ForumUnifeso.src.API.Base.Context
         public DbSet<Post> Post { get; set; } = null!;
         public DbSet<Person> Person { get; set; } = null!;
         public DbSet<ThreadForum> ThreadForum { get; set; } = null!;
+        public DbSet<User> User { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -83,6 +85,25 @@ namespace ForumUnifeso.src.API.Base.Context
                 entity.HasMany(e => e.Posts)
                       .WithOne(p => p.Author)
                       .HasForeignKey(p => p.AuthorId); 
+            });
+
+            modelBuilder.Entity<User>(entity =>
+            {   
+                entity.HasKey(e => e.Id);
+               
+                entity.Property(e => e.Id)
+                      .ValueGeneratedOnAdd();
+                
+                entity.Property(e => e.Username)
+                      .IsRequired()
+                      .HasMaxLength(100);
+               
+                entity.Property(e => e.Email)
+                      .IsRequired()
+                      .HasMaxLength(150);
+
+                entity.Property(e => e.PasswordHash)
+                      .IsRequired();
             });
         }
     }

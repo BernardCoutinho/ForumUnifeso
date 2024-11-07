@@ -54,6 +54,19 @@ namespace ForumUnifeso.src.API.Controller.ThreadForumController
             }
         }
 
+        [HttpGet("/all/{tag}")]
+        public async Task<ActionResult<IEnumerable<ThreadForumSimpleResponse>>> GetAllThreadForum(string tag) 
+        {
+            try
+            {
+                var threadsForum = await _threadForumService.GetAllByTagAsync(tag);
+                return Ok(_mapper.Map<IEnumerable<ThreadForumSimpleResponse>>(threadsForum));
+            }
+            catch (Exception ex) {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<ThreadForumResponse>> GetThreadForumById(int id)
         {
