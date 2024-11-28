@@ -42,12 +42,12 @@ namespace ForumUnifeso.src.API.Controller.ThreadForumController
         }
 
         [HttpGet("/all")]
-        public async Task<ActionResult<IEnumerable<ThreadForumSimpleResponse>>> GetAllThreadForum() 
+        public async Task<ActionResult<IEnumerable<ThreadForumResponse>>> GetAllThreadForum() 
         {
             try
             {
                 var threadsForum = await _threadForumService.GetAllAsync();
-                return Ok(_mapper.Map<IEnumerable<ThreadForumSimpleResponse>>(threadsForum));
+                return Ok(_mapper.Map<IEnumerable<ThreadForumResponse>>(threadsForum));
             }
             catch (Exception ex) {
                 return StatusCode(500, ex.Message);
@@ -55,12 +55,12 @@ namespace ForumUnifeso.src.API.Controller.ThreadForumController
         }
 
         [HttpGet("/all/{tag}")]
-        public async Task<ActionResult<IEnumerable<ThreadForumSimpleResponse>>> GetAllThreadForum(string tag) 
+        public async Task<ActionResult<IEnumerable<ThreadForumResponse>>> GetAllThreadForum(string tag) 
         {
             try
             {
                 var threadsForum = await _threadForumService.GetAllByTagAsync(tag);
-                return Ok(_mapper.Map<IEnumerable<ThreadForumSimpleResponse>>(threadsForum));
+                return Ok(_mapper.Map<IEnumerable<ThreadForumResponse>>(threadsForum));
             }
             catch (Exception ex) {
                 return StatusCode(500, ex.Message);
@@ -84,12 +84,12 @@ namespace ForumUnifeso.src.API.Controller.ThreadForumController
         }
 
         [HttpGet("title/{title}")]
-        public async Task<ActionResult<IEnumerable<ThreadForumSimpleResponse>>> GetThreadForumByTitle(string title)
+        public async Task<ActionResult<IEnumerable<ThreadForumResponse>>> GetThreadForumByTitle(string title)
         {
             try
             {
                 var threadsForum = await _threadForumService.GetByTitleAsync(title);
-                return Ok(_mapper.Map<IEnumerable<ThreadForumSimpleResponse>>(threadsForum));
+                return Ok(_mapper.Map<IEnumerable<ThreadForumResponse>>(threadsForum));
             }
             catch (Exception ex) {
                 return StatusCode(500, ex.Message);
