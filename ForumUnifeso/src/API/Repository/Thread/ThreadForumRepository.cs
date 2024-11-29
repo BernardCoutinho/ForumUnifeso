@@ -48,6 +48,7 @@ namespace ForumUnifeso.src.API.Repository
             return await _context.ThreadForum
             .Include(tf => tf.Topic)
             .ThenInclude(p => p.Author)
+            .Include(tf => tf.Answers)
             .ToListAsync();
         }
 
@@ -59,6 +60,7 @@ namespace ForumUnifeso.src.API.Repository
                     .Include(tf => tf.Topic)
                     .ThenInclude(p => p.Author)
                     .Where(threadForum => threadForum.Tag == tagEnum)
+                    .Include(tf => tf.Answers)
                     .ToListAsync();
             }
             

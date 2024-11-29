@@ -99,6 +99,16 @@ builder.Services.AddAuthentication((opt) =>
 
 builder.Services.AddAuthorization();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp", policy =>
+    {
+        policy.WithOrigins("https://forumunifesofront-production.up.railway.app")
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
 try {
     var app = builder.Build();
 
@@ -116,6 +126,10 @@ try {
 
     app.UseAuthentication();
     app.UseAuthorization();
+
+    app.MapControllers();
+
+    app.UseCors("AllowReactApp");
 
     app.MapControllers();
 
